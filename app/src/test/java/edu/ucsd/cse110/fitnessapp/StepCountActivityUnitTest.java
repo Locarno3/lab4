@@ -32,6 +32,12 @@ public class StepCountActivityUnitTest {
     }
 
     @Test
+    public void testEncourgement() {
+        StepCountActivity activity = new StepCountActivity();
+        activity.showEncourgment(1000);
+    }
+
+    @Test
     public void testUpdateStepsButton() {
         nextStepCount = 1337;
 

@@ -1,6 +1,7 @@
 package edu.ucsd.cse110.fitnessapp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import edu.ucsd.cse110.fitnessapp.fitness.FitnessService;
 import edu.ucsd.cse110.fitnessapp.fitness.FitnessServiceFactory;
@@ -29,6 +31,12 @@ public class StepCountActivity extends AppCompatActivity {
 
         String fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
+
+        String x = (String)textSteps.getText();
+        int steps = Integer.parseInt(x);
+        if (steps >= 1000) {
+            showEncourgment(steps);
+        }
 
         Button btnUpdateSteps = findViewById(R.id.buttonUpdateSteps);
         btnUpdateSteps.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +63,17 @@ public class StepCountActivity extends AppCompatActivity {
         } else {
             Log.e(TAG, "ERROR, google fit result code: " + resultCode);
         }
+    }
+
+    public void showEncourgment(int steps) {
+        int recommendedNumberOfSteps = 10000;
+        Context context = getApplicationContext();
+        CharSequence text = "Good job! you're already at " + (steps/recommendedNumberOfSteps)*100 + "% of the daily " +
+                "recommended number of steps";
+        int duration = Toast.LENGTH_LONG;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 
     public void setStepCount(long stepCount) {
